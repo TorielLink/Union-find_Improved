@@ -2,7 +2,7 @@ public class Amis {
     private int[] amis;
     public void initialiser(int n) {
         for (int i = 0; i < n - 1; i++) {
-            listeAmis[i] = i;
+            amis[i] = i;
         }
     }
 
