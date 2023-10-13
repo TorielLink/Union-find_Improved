@@ -1,5 +1,5 @@
 
-// test de generalisation a un type T, a finir
+// TODO : test de generalisation a un type T, a finir
 
 public class Friendships<T> {
     private T[] residents;

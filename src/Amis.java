@@ -32,7 +32,7 @@ public class Amis {
     public void isolate(int h){
         //TODO voir comment ameliorer (si possible)
         int repH = this.amis[h];
-        System.out.println(repH);
+        //System.out.println(repH);
         int newRep = -1;
         for (int i = 0; i < this.amis.length; i++) {
             int rep = this.amis[i];
