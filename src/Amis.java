@@ -30,7 +30,7 @@ public class Amis {
     }
 
     public void isolate(int h){
-        //TODO : voir comment ameliorer (si possible)
+        //TODO : voir comment améliorer (si possible)
         int repH = this.amis[h];
         //System.out.println(repH);
         int newRep = -1;
