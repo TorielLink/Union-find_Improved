@@ -51,7 +51,8 @@ public class FriendshipList<T> {
     public T find(T name) { //TODO : à modifier
         Inhabitant<T> representant = getInhabitant(name);
         int i = amis.indexOf(representant);
-        while (!representant.name.equals(amis.get(i))) {
+        while (!representant.name.equals(amis.get(i).name)) {
+            System.out.println(amis.get(i).name);
             representant = amis.get(i);
             i = amis.indexOf(representant);
         }

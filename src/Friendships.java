@@ -12,6 +12,7 @@ public class Friendships<T> {
             this.amis.put(i, null);
         }
     }
+    /*
     public int find(T h) {
         int representant = amis.get(h);
         while (representant != amis[representant]) {
@@ -47,7 +48,7 @@ public class Friendships<T> {
             }
         }
         this.amis[h] = h;
-    }
+    }*/
 
     public void add(){
         this.amis.put(amis.size(), null);
