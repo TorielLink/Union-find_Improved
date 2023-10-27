@@ -6,10 +6,9 @@ public class FriendshipList<T> {
     private final LinkedList<Inhabitant<T>> amis;
 
     protected static class Inhabitant<T> {
-        private final T name; // TODO : nom à changer
+        private final T name;
         private T representant;
 
-        
         public Inhabitant(T name) {
             this.name = name;
             this.representant = name;
@@ -48,7 +47,7 @@ public class FriendshipList<T> {
         return null;
     }
 
-    public T find(T name) { //TODO : à modifier
+    public T find(T name) {
         Inhabitant<T> representant = getInhabitant(name);
         int i = amis.indexOf(representant);
         while (!representant.name.equals(amis.get(i).name)) {
@@ -91,8 +90,7 @@ public class FriendshipList<T> {
     }
 
     public void addInhabitant(T newPerson) {
-        Inhabitant<T> newInhabitant = new Inhabitant<>(newPerson);
-        amis.add(newInhabitant);
+        amis.add(new Inhabitant<>(newPerson));
     }
 
     @Override
