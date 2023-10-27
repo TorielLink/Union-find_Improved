@@ -7,6 +7,23 @@ import static org.junit.Assert.*;
 
 public class FriendshipListTest {
     @Test
+    public void testInteger() {
+        FriendshipList<Integer> f = new FriendshipList<>();
+        List<Integer> numbers = Arrays.asList(205,404,42,-1);
+
+        f.addInhabitants(numbers);
+        assertArrayEquals(numbers.toArray(), f.toList().get(0).toArray());
+        assertArrayEquals(numbers.toArray(), f.toList().get(1).toArray());
+
+        assertEquals((Integer) 205, f.find(205));
+
+        f.union(404, -1);
+        assertArrayEquals(Arrays.asList(205,404,42,-1).toArray(), f.toList().get(1).toArray());
+        assertEquals((Integer) (-1), f.find(404));
+
+    }
+
+    @Test
     public void test() {
         //TODO : faire des tests automatisés
             ArrayList<String> contenu = new ArrayList<>(Arrays.asList("Emmanuel", "Denis", "Lisa", "Nathalie", "Guillaume", "Florence"));
@@ -19,10 +36,17 @@ public class FriendshipListTest {
             f.union("Denis", "Emmanuel");
             System.out.println(f);
 
-            assertEquals(f.find("Lisa"), "Lisa");
-            assertEquals(f.find("Denis"), "Nathalie");
+        assertEquals("Lisa", f.find("Lisa"));
+        assertEquals("Nathalie", f.find("Denis"));
 
-            f.isolate("Nathalie");
-            System.out.println(f);
+        //assertThrows(NullPointerException.class, f.find("Jamy"));
+        //TODO ICI LE METTRE AUTRE PART
+
+        f.isolate("Nathalie");
+        assertArrayEquals(Arrays.asList("Emmanuel", "Emmanuel", "Lisa", "Nathalie", "Emmanuel", "Florence").toArray(),
+                f.toList().get(1).toArray());
+
+        assertArrayEquals(contenu.toArray(), f.toList().get(0).toArray());
+        // check if the list have not changed since the begging of the test
     }
 }

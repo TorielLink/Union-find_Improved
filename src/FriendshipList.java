@@ -3,19 +3,19 @@ import java.util.List;
 import java.util.Objects;
 
 public class FriendshipList<T> {
-    private final LinkedList<Inhabitant<T>> amis;
+    private final LinkedList<Inhabitant<T>> friends;
 
     protected static class Inhabitant<T> {
         private final T name;
-        private T representant;
+        private T representative;
 
         public Inhabitant(T name) {
             this.name = name;
-            this.representant = name;
+            this.representative = name;
         }
 
-        public void setRepresentant(T representant) {
-            this.representant = representant;
+        public void setRepresentative(T representative) {
+            this.representative = representative;
         }
 
         @Override
@@ -28,43 +28,44 @@ public class FriendshipList<T> {
     }
 
     public FriendshipList() {
-        this.amis = new LinkedList<>();
+        this.friends = new LinkedList<>();
     }
 
     public FriendshipList(List<T> names) {
-        this.amis = new LinkedList<>();
+        this.friends = new LinkedList<>();
         for (T name : names) {
             this.addInhabitant(name);
         }
     }
 
     private Inhabitant<T> getInhabitant(T name) {
-        for (Inhabitant<T> ami : amis) {
-            if(ami.name == name){
-                return ami;
+        for (Inhabitant<T> friend : friends) {
+            if(friend.name == name){
+                return friend;
             }
         }
         return null;
     }
 
     public T find(T name) {
-        Inhabitant<T> representant = getInhabitant(name);
-        int i = amis.indexOf(representant);
-        while (!representant.name.equals(amis.get(i).name)) {
-            System.out.println(amis.get(i).name);
-            representant = amis.get(i);
-            i = amis.indexOf(representant);
+        Inhabitant<T> representative = getInhabitant(name);
+        int i = friends.indexOf(representative);
+
+        while (!Objects.requireNonNull(representative).name.equals(friends.get(i).name)) {
+            System.out.println(friends.get(i).name);
+            representative = friends.get(i);
+            i = friends.indexOf(representative);
         }
 
-        Inhabitant<T> representant2 = new Inhabitant<>(name);
-        int j = amis.indexOf(representant2);
-        while (!representant2.name.equals(amis.get(j).name)) {
-            Inhabitant<T> tmp = representant2;
-            representant2 = amis.get(j);
-            amis.set(amis.indexOf(tmp), representant2);
-            j = amis.indexOf(representant2);
+        Inhabitant<T> representative2 = new Inhabitant<>(name);
+        int j = friends.indexOf(representative2);
+        while (!representative2.name.equals(friends.get(j).name)) {
+            Inhabitant<T> tmp = representative2;
+            representative2 = friends.get(j);
+            friends.set(friends.indexOf(tmp), representative2);
+            j = friends.indexOf(representative2);
         }
-        return representant.representant;
+        return representative.representative;
     }
 
     public void union(T name1, T name2) {
@@ -74,34 +75,33 @@ public class FriendshipList<T> {
 
     public void isolate(T name) { //TODO : à essayer
         Inhabitant<T> isolatePerson = getInhabitant(name);
-        T newRepresentant = null;
+        T newRepresentative = null;
 
-        for (Inhabitant<T> ami : amis) {
-            if (isolatePerson.name.equals(ami.representant)
-                    && !isolatePerson.name.equals(ami.name)) {
-                if (newRepresentant == null) {
-                    newRepresentant = ami.name;
+        for (Inhabitant<T> friend : friends) {
+            if (Objects.requireNonNull(isolatePerson).name.equals(friend.representative)
+                    && !isolatePerson.name.equals(friend.name)) {
+                if (newRepresentative == null) {
+                    newRepresentative = friend.name;
                 }
-                ami.setRepresentant(newRepresentant);
-                amis.set(amis.indexOf(ami), ami);
+                friend.setRepresentative(newRepresentative);
+                friends.set(friends.indexOf(friend), friend);
             }
         }
-        isolatePerson.setRepresentant(isolatePerson.name);
+        Objects.requireNonNull(isolatePerson).setRepresentative(isolatePerson.name);
     }
 
     public void addInhabitant(T newPerson) {
-        amis.add(new Inhabitant<>(newPerson));
+        friends.add(new Inhabitant<>(newPerson));
     }
 
     @Override
     public String toString() {
         boolean first = true;
         StringBuilder sb = new StringBuilder("[");
-        for (Inhabitant<T> ami : amis) {
-            if(!first)
-                sb.append(", ");
+        for (Inhabitant<T> friend : friends) {
+            if(!first) sb.append(", ");
             else first = false;
-            sb.append(ami.name).append(" -> ").append(ami.representant);
+            sb.append(friend.name).append(" -> ").append(friend.representative);
         }
         sb.append("]");return sb.toString();
     }
