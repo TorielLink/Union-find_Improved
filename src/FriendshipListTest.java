@@ -2,6 +2,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -24,17 +25,20 @@ public class FriendshipListTest {
     }
 
     @Test
-    public void test() {
-        //TODO : faire des tests automatisés
-            ArrayList<String> contenu = new ArrayList<>(Arrays.asList("Emmanuel", "Denis", "Lisa", "Nathalie", "Guillaume", "Florence"));
-            FriendshipList<String> f = new FriendshipList<>(contenu);
-            //assertArrayEquals(f, ...);
-            f.union("Emmanuel", "Nathalie");
+    public void testString() {
+        ArrayList<String> contenu = new ArrayList<>(Arrays.asList("Emmanuel", "Denis", "Lisa", "Nathalie", "Guillaume",
+                "Florence"));
+        FriendshipList<String> f = new FriendshipList<>(contenu);
+        assertArrayEquals(contenu.toArray(), f.toList().get(0).toArray());
+        assertArrayEquals(contenu.toArray(), f.toList().get(1).toArray());
 
-            f.union("Denis", "Guillaume");
-
-            f.union("Denis", "Emmanuel");
-            System.out.println(f);
+        f.union("Emmanuel", "Nathalie");
+        f.union("Denis", "Guillaume");
+        assertArrayEquals(Arrays.asList("Nathalie", "Guillaume", "Lisa", "Nathalie", "Guillaume", "Florence").toArray(),
+                f.toList().get(1).toArray());
+        f.union("Denis", "Emmanuel");
+        assertArrayEquals(Arrays.asList("Nathalie", "Nathalie", "Lisa", "Nathalie", "Nathalie", "Florence").toArray(),
+                f.toList().get(1).toArray());
 
         assertEquals("Lisa", f.find("Lisa"));
         assertEquals("Nathalie", f.find("Denis"));

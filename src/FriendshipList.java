@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -70,7 +71,14 @@ public class FriendshipList<T> {
 
     public void union(T name1, T name2) {
         //TODO : mettre à jour le représentant de chacun des représentés du représentant précédant
-        getInhabitant(find(name1)).setRepresentant(find(name2));
+        T representant1 = find(name1);
+        T representant2 = find(name2);
+        Objects.requireNonNull(getInhabitant(representant1)).setRepresentative(representant2);
+        for (Inhabitant<T> friend : friends) {
+            if (friend.representative.equals(representant1)){
+                friend.setRepresentative(representant2);
+            }
+        }
     }
 
     public void isolate(T name) { //TODO : à essayer
@@ -92,6 +100,25 @@ public class FriendshipList<T> {
 
     public void addInhabitant(T newPerson) {
         friends.add(new Inhabitant<>(newPerson));
+    }
+
+    public void addInhabitants(List<T> listPerson) {
+        for (T person : listPerson) {
+            friends.add(new Inhabitant<>(person));
+        }
+    }
+
+    public List<List<T>> toList(){
+        List<List<T>> returnList = new ArrayList<>();
+        List<T> names = new LinkedList<>();
+        List<T> representatives = new LinkedList<>();
+        for(Inhabitant<T> friend : friends){
+            names.add(friend.name);
+            representatives.add(friend.representative);
+        }
+        returnList.add(names);
+        returnList.add(representatives);
+        return returnList;
     }
 
     @Override
