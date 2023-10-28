@@ -55,7 +55,7 @@ public class FriendshipList<T extends Comparable<T>> {
             throw new IllegalArgumentException("incorrect name");
         }
         for (Inhabitant<T> friend : friends) {
-            if(friend.name.equals(name)){
+            if(friend.name.compareTo(name) == 0){
                 return friend;
             }
         }
@@ -76,7 +76,7 @@ public class FriendshipList<T extends Comparable<T>> {
             System.out.println(friends.get(i).name);
             representative = friends.get(i);
             i = friends.indexOf(representative);
-        }
+        }//TODO inutile ? cf coverage
 
         Inhabitant<T> representative2 = new Inhabitant<>(name);
         int j = friends.indexOf(representative2);
@@ -85,13 +85,13 @@ public class FriendshipList<T extends Comparable<T>> {
             representative2 = friends.get(j);
             friends.set(friends.indexOf(tmp), representative2);
             j = friends.indexOf(representative2);
-        }
+        }//TODO inutile ? cf coverage
         return representative.representative;
     }
 
     private boolean containsName(T name) {
         for(Inhabitant<T> friend : friends){
-            if(friend.name.equals(name)){
+            if(friend.name.compareTo(name) == 0){
                 return true;
             }
         }
@@ -160,8 +160,8 @@ public class FriendshipList<T extends Comparable<T>> {
             names.add(friend.name);
             representatives.add(friend.representative);
         }
-        returnList.set(0, names);
-        returnList.set(1, representatives);
+        returnList.add(names);
+        returnList.add(representatives);
         return returnList;
     }
 

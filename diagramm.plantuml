@@ -1,0 +1,41 @@
+@startuml
+
+!theme mars
+top to bottom direction
+skinparam linetype ortho
+
+class FriendshipList<T> {
+  + FriendshipList(): 
+  + FriendshipList(List<T>): 
+  + toString(): String
+  + isolate(T): void
+  + addInhabitant(T): void
+  - getInhabitant(T): Inhabitant<T>?
+  - containsName(T): boolean
+  + find(T): T
+  + toList(): List<List<T>>
+  + addInhabitants(List<T>): void
+  + union(T, T): void
+}
+class FriendshipListTest {
+  + FriendshipListTest(): 
+  + testString(): void
+  + testInteger(): void
+}
+class Inhabitant<T> {
+  + Inhabitant(T): 
+  - representative: T
+  + equals(Object): boolean
+   representative: T
+}
+class Main {
+  + Main(): 
+  + main(String[]): void
+}
+
+FriendshipList     "1" *-[#595959,plain]-> "friends\n*" Inhabitant         
+FriendshipList      -[#595959,dashed]->  Inhabitant         : "«create»"
+FriendshipListTest  -[#595959,dashed]->  FriendshipList     : "«create»"
+Inhabitant          +-[#820000,plain]-  FriendshipList     
+Main                -[#595959,dashed]->  FriendshipList     : "«create»"
+@enduml

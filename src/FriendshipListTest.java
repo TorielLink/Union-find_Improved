@@ -8,8 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class FriendshipListTest {
+    public static final int INDEX_NAMES = 0;
+    public static final int INDEX_REPRESENTATIVES = 1;
     @Test
-    public void testInteger() {
+    void testInteger() {
         FriendshipList<Integer> f = new FriendshipList<>();
         List<Integer> numbers = Arrays.asList(205,404,42,-1);
 
@@ -26,12 +28,12 @@ public class FriendshipListTest {
     }
 
     @Test
-    public void testString() {
+    void testString() {
         ArrayList<String> contenu = new ArrayList<>(Arrays.asList("Emmanuel", "Denis", "Lisa", "Nathalie", "Guillaume",
                 "Florence"));
         FriendshipList<String> f = new FriendshipList<>(contenu);
-        assertArrayEquals(contenu.toArray(), f.toList().get(0).toArray());
-        assertArrayEquals(contenu.toArray(), f.toList().get(1).toArray());
+        assertArrayEquals(contenu.toArray(), f.toList().get(INDEX_NAMES).toArray());
+        assertArrayEquals(contenu.toArray(), f.toList().get(INDEX_REPRESENTATIVES).toArray());
 
         f.union("Emmanuel", "Nathalie");
         f.union("Denis", "Guillaume");
