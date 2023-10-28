@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class PrenomStat implements Comparable<PrenomStat> {
     private final String name;
     private final int sex;

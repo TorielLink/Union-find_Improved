@@ -1,9 +1,13 @@
 /**
- * PERSONNAL VERSION
+ * PERSONAL VERSION
  */
 
 import java.util.*;
 
+/**
+ * Union-Find data structure with a generic type
+ * @param <T> any type
+ */
 public class FriendshipList<T extends Comparable<T>> {
     private final LinkedList<Inhabitant<T>> friends;
     //TODO éventuellement mettre en HashMap ?
@@ -25,14 +29,6 @@ public class FriendshipList<T extends Comparable<T>> {
                 throw new IllegalArgumentException("incorrect name");
             }
             this.representative = representative;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Inhabitant<T> that = (Inhabitant<T>) o;
-            return name.compareTo(that.name) == 0;
         }
     }
 
@@ -72,7 +68,7 @@ public class FriendshipList<T extends Comparable<T>> {
         Inhabitant<T> representative = getInhabitant(name);
         int i = friends.indexOf(representative);
 
-        while (!Objects.requireNonNull(representative).name.equals(friends.get(i).name)) {
+        while (!(Objects.requireNonNull(representative).name.compareTo(friends.get(i).name) == 0)) {
             System.out.println(friends.get(i).name);
             representative = friends.get(i);
             i = friends.indexOf(representative);
@@ -80,7 +76,7 @@ public class FriendshipList<T extends Comparable<T>> {
 
         Inhabitant<T> representative2 = new Inhabitant<>(name);
         int j = friends.indexOf(representative2);
-        while (!representative2.name.equals(friends.get(j).name)) {
+        while (!(representative2.name.compareTo(friends.get(j).name) == 0)) {
             Inhabitant<T> tmp = representative2;
             representative2 = friends.get(j);
             friends.set(friends.indexOf(tmp), representative2);
@@ -90,10 +86,8 @@ public class FriendshipList<T extends Comparable<T>> {
     }
 
     private boolean containsName(T name) {
-        for(Inhabitant<T> friend : friends){
-            if(friend.name.compareTo(name) == 0){
-                return true;
-            }
+        if (this.friends.contains(getInhabitant(name))){
+            return true;
         }
         return false;
     }
@@ -106,7 +100,7 @@ public class FriendshipList<T extends Comparable<T>> {
         T representant2 = find(representativeTemp);
         Objects.requireNonNull(getInhabitant(representant1)).setRepresentative(representant2);
         for (Inhabitant<T> friend : friends) {
-            if (friend.representative.equals(representant1)){
+            if (friend.representative.compareTo(representant1) == 0){
                 friend.setRepresentative(representant2);
             }
         }
@@ -120,8 +114,8 @@ public class FriendshipList<T extends Comparable<T>> {
         T newRepresentative = null;
 
         for (Inhabitant<T> friend : friends) {
-            if (Objects.requireNonNull(isolatePerson).name.equals(friend.representative)
-                    && !isolatePerson.name.equals(friend.name)) {
+            if (Objects.requireNonNull(isolatePerson).name.compareTo(friend.representative) == 0
+                    && !(isolatePerson.name.compareTo(friend.name) == 0)) {
                 if (newRepresentative == null) {
                     newRepresentative = friend.name;
                 }
