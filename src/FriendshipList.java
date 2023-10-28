@@ -1,21 +1,29 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+/**
+ * PERSONNAL VERSION
+ */
 
-public class FriendshipList<T> {
+import java.util.*;
+
+public class FriendshipList<T extends Comparable<T>> {
     private final LinkedList<Inhabitant<T>> friends;
+    //TODO éventuellement mettre en HashMap ?
 
-    protected static class Inhabitant<T> {
+    protected static class Inhabitant<T extends Comparable<T>> {
         private final T name;
         private T representative;
 
         public Inhabitant(T name) {
+            if(name == null){
+                throw new IllegalArgumentException("incorrect name");
+            }
             this.name = name;
             this.representative = name;
         }
 
         public void setRepresentative(T representative) {
+            if(representative == null){
+                throw new IllegalArgumentException("incorrect name");
+            }
             this.representative = representative;
         }
 
@@ -23,8 +31,8 @@ public class FriendshipList<T> {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Inhabitant<?> that = (Inhabitant<?>) o;
-            return Objects.equals(name, that.name);
+            Inhabitant<T> that = (Inhabitant<T>) o;
+            return name.compareTo(that.name) == 0;
         }
     }
 
@@ -33,6 +41,9 @@ public class FriendshipList<T> {
     }
 
     public FriendshipList(List<T> names) {
+        if(names == null){
+            throw new IllegalArgumentException("names list not instanced");
+        }
         this.friends = new LinkedList<>();
         for (T name : names) {
             this.addInhabitant(name);
@@ -40,8 +51,11 @@ public class FriendshipList<T> {
     }
 
     private Inhabitant<T> getInhabitant(T name) {
+        if(name == null){
+            throw new IllegalArgumentException("incorrect name");
+        }
         for (Inhabitant<T> friend : friends) {
-            if(friend.name == name){
+            if(friend.name.equals(name)){
                 return friend;
             }
         }
@@ -49,6 +63,12 @@ public class FriendshipList<T> {
     }
 
     public T find(T name) {
+        if(name == null){
+            throw new IllegalArgumentException("incorrect name");
+        }
+        if(!this.containsName(name)){
+            throw new RuntimeException("this person does not belong in the list");
+        }
         Inhabitant<T> representative = getInhabitant(name);
         int i = friends.indexOf(representative);
 
@@ -69,10 +89,21 @@ public class FriendshipList<T> {
         return representative.representative;
     }
 
-    public void union(T name1, T name2) {
-        //TODO : mettre à jour le représentant de chacun des représentés du représentant précédant
-        T representant1 = find(name1);
-        T representant2 = find(name2);
+    private boolean containsName(T name) {
+        for(Inhabitant<T> friend : friends){
+            if(friend.name.equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void union(T individual, T representativeTemp) {
+        if(individual == null || representativeTemp == null){
+            throw new IllegalArgumentException("incorrect name");
+        }
+        T representant1 = find(individual);
+        T representant2 = find(representativeTemp);
         Objects.requireNonNull(getInhabitant(representant1)).setRepresentative(representant2);
         for (Inhabitant<T> friend : friends) {
             if (friend.representative.equals(representant1)){
@@ -81,7 +112,10 @@ public class FriendshipList<T> {
         }
     }
 
-    public void isolate(T name) { //TODO : à essayer
+    public void isolate(T name) {
+        if(name == null){
+            throw new IllegalArgumentException("incorrect name");
+        }
         Inhabitant<T> isolatePerson = getInhabitant(name);
         T newRepresentative = null;
 
@@ -99,25 +133,35 @@ public class FriendshipList<T> {
     }
 
     public void addInhabitant(T newPerson) {
+        if(this.containsName(newPerson)){
+            throw new IllegalArgumentException("person already in list");
+        }
+        if(newPerson == null){
+            throw new IllegalArgumentException("incorrect name");
+        }
         friends.add(new Inhabitant<>(newPerson));
     }
 
     public void addInhabitants(List<T> listPerson) {
+        if(listPerson == null){
+            throw new IllegalArgumentException("list of persons empty");
+        }
         for (T person : listPerson) {
             friends.add(new Inhabitant<>(person));
         }
     }
 
     public List<List<T>> toList(){
-        List<List<T>> returnList = new ArrayList<>();
+        //TODO verifier dans la doc que l'ordre est conservé
+        List<List<T>> returnList = new ArrayList<>(2);
         List<T> names = new LinkedList<>();
         List<T> representatives = new LinkedList<>();
         for(Inhabitant<T> friend : friends){
             names.add(friend.name);
             representatives.add(friend.representative);
         }
-        returnList.add(names);
-        returnList.add(representatives);
+        returnList.set(0, names);
+        returnList.set(1, representatives);
         return returnList;
     }
 

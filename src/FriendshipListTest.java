@@ -1,10 +1,11 @@
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class FriendshipListTest {
     @Test
@@ -19,7 +20,7 @@ public class FriendshipListTest {
         assertEquals((Integer) 205, f.find(205));
 
         f.union(404, -1);
-        assertArrayEquals(Arrays.asList(205,404,42,-1).toArray(), f.toList().get(1).toArray());
+        assertArrayEquals(Arrays.asList(205,-1,42,-1).toArray(), f.toList().get(1).toArray());
         assertEquals((Integer) (-1), f.find(404));
 
     }
@@ -43,14 +44,15 @@ public class FriendshipListTest {
         assertEquals("Lisa", f.find("Lisa"));
         assertEquals("Nathalie", f.find("Denis"));
 
-        //assertThrows(NullPointerException.class, f.find("Jamy"));
-        //TODO ICI LE METTRE AUTRE PART
+        assertThrows(RuntimeException.class, () -> {
+            f.find("Jamy");
+        });
 
         f.isolate("Nathalie");
         assertArrayEquals(Arrays.asList("Emmanuel", "Emmanuel", "Lisa", "Nathalie", "Emmanuel", "Florence").toArray(),
                 f.toList().get(1).toArray());
 
+        //to check if the list have not changed since the begging of the test
         assertArrayEquals(contenu.toArray(), f.toList().get(0).toArray());
-        // check if the list have not changed since the begging of the test
     }
 }
