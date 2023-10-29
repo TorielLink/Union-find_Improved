@@ -6,10 +6,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Basic tests
+ */
 public class FriendshipListTest {
     public static final int INDEX_NAMES = 0;
     public static final int INDEX_REPRESENTATIVES = 1;
+
+    /**
+     * Test for Integer type
+     */
     @Test
     void testInteger() {
         FriendshipList<Integer> f = new FriendshipList<>();
@@ -27,6 +33,9 @@ public class FriendshipListTest {
 
     }
 
+    /**
+     * Test for String type
+     */
     @Test
     void testString() {
         ArrayList<String> contenu = new ArrayList<>(Arrays.asList("Emmanuel", "Denis", "Lisa", "Nathalie", "Guillaume",

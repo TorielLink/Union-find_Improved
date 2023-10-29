@@ -3,7 +3,14 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.*;
+
+/**
+ * Performance tests
+ */
 class FriendshipListBigDataTest {
+    /**
+     * Main test
+     */
     @Test
     void test() {
         Random r = new Random();
@@ -20,6 +27,11 @@ class FriendshipListBigDataTest {
                 ", NbOp for add : " + nbOpAdd + ", total : " + (nbOpMake + nbOpIsolate + nbOpAdd));
     }
 
+    /**
+     * Function adding 20 persons to the FriendshipList
+     * @param f the FriendshipList
+     * @return the numbers of persons added (for now always 20)
+     */
     private int addFriends(FriendshipList<PrenomStat> f) {
         f.addInhabitant(new PrenomStat("ZORGLUB", 2, 56));
         f.addInhabitant(new PrenomStat("XANTHIA", 1, 31));
@@ -44,13 +56,19 @@ class FriendshipListBigDataTest {
         return 20;
     }
 
-    private int isolateFriends(FriendshipList<PrenomStat> f, int percentage) {
+    /**
+     * Function to isolate a random number of friends
+     * @param f the FriendshipList
+     * @param proportion the proportion of friends to isolate
+     * @return the number of friends that were isolated
+     */
+    private int isolateFriends(FriendshipList<PrenomStat> f, int proportion) {
         int nbOp = 0;
         Random r = new Random();
         int i = r.nextInt(10);
         for(PrenomStat p : f.toList().get(0)){
             i++;
-            if(i%percentage == 0){
+            if(i%proportion == 0){
                 f.isolate(p);
                 nbOp++;
             }
@@ -58,14 +76,20 @@ class FriendshipListBigDataTest {
         return nbOp;
     }
 
-    private int makeFriends(FriendshipList<PrenomStat> f, int percentage) {
+    /**
+     * Function to make a random number of people friends
+     * @param f the FriendshipList
+     * @param proportion the proportion of persons to make friends
+     * @return the number of people that became friends
+     */
+    private int makeFriends(FriendshipList<PrenomStat> f, int proportion) {
         int nbOp = 0;
         Random r = new Random();
         int i = r.nextInt(10);
         PrenomStat pred = null;
         for(PrenomStat p : f.toList().get(0)){
             i++;
-            if(i%percentage == 0){
+            if(i%proportion == 0){
                 f.union(p, pred);
                 nbOp++;
             }
@@ -74,6 +98,10 @@ class FriendshipListBigDataTest {
         return nbOp;
     }
 
+    /**
+     * Function to import persons from a CSV file
+     * @return the HashMap containing the persons
+     */
     private HashMap<String, PrenomStat> importData(){
         HashMap<String, PrenomStat> map = new HashMap<>();
         try {

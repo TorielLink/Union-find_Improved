@@ -6,7 +6,7 @@
 import java.util.*;
 
 /**
- * Union-Find data structure with a generic type
+ * Union-Find data structure with a generic type T
  * @param <T> any type
  */
 public class FriendshipList<T extends Comparable<T>> {
@@ -113,7 +113,7 @@ public class FriendshipList<T extends Comparable<T>> {
             System.out.println(friends.get(i).name);
             representative = friends.get(i);
             i = friends.indexOf(representative);
-        }//TODO inutile ? cf. coverage
+        }
 
         Inhabitant<T> representative2 = getInhabitant(name);
         int j = friends.indexOf(representative2);
@@ -122,7 +122,7 @@ public class FriendshipList<T extends Comparable<T>> {
             representative2 = friends.get(j);
             friends.set(friends.indexOf(tmp), representative2);
             j = friends.indexOf(representative2);
-        }//TODO inutile ? cf coverage
+        }
         return representative.representative;
     }
 
