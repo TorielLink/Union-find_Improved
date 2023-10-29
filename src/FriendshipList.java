@@ -9,14 +9,29 @@ import java.util.*;
  * @param <T> any type
  */
 public class FriendshipList<T extends Comparable<T>> {
+    /**
+     *  Data structure for the "friends" list : a LinkedList
+     *  Could a HashMap be better ?
+     */
     private final LinkedList<Inhabitant<T>> friends;
-    //TODO éventuellement mettre en HashMap ?
-    public static final boolean TEST_EXISTS = false; //TODO change to false only if the data contains NO duplicates
+    /**
+     * Condition to verify the unicity of a friend or not
+     * change to false only if the data contains NO duplicates
+     */
+    public static final boolean TEST_EXISTS = false;
 
+    /**
+     * A nested class to represent an Inhabitant : his value and his representative
+     * @param <T> any type
+     */
     private static class Inhabitant<T extends Comparable<T>> {
         private final T name;
         private T representative;
 
+        /**
+         * Constructor
+         * @param name : the value of the Inhabitant
+         */
         public Inhabitant(T name) {
             if(name == null){
                 throw new IllegalArgumentException("incorrect name");
@@ -25,6 +40,10 @@ public class FriendshipList<T extends Comparable<T>> {
             this.representative = name;
         }
 
+        /**
+         * Setter for the representative : when an Inhabitant became friends or is isolated
+         * @param representative : the new representative
+         */
         public void setRepresentative(T representative) {
             if(representative == null){
                 throw new IllegalArgumentException("incorrect name");
@@ -33,10 +52,17 @@ public class FriendshipList<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Empty constructor
+     */
     public FriendshipList() {
         this.friends = new LinkedList<>();
     }
 
+    /**
+     * Constuctor taking for parameter a list of names
+     * @param names : the list of names
+     */
     public FriendshipList(List<T> names) {
         if(names == null){
             throw new IllegalArgumentException("names list not instanced");
@@ -47,6 +73,11 @@ public class FriendshipList<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Function finding the Inhabitant based on his name
+     * @param name the name of the Inhabitant
+     * @return the Inhabitant structure
+     */
     private Inhabitant<T> getInhabitant(T name) {
         if(name == null){
         throw new IllegalArgumentException("incorrect name");
@@ -64,6 +95,11 @@ public class FriendshipList<T extends Comparable<T>> {
         return null;
     }
 
+    /**
+     * Function finding the representative of an habitant, based on his name
+     * @param name the name of the inhabitant
+     * @return the name of the representative
+     */
     public T find(T name) {
         if(name == null){
             throw new IllegalArgumentException("incorrect name");
@@ -93,6 +129,11 @@ public class FriendshipList<T extends Comparable<T>> {
         return representative.representative;
     }
 
+    /**
+     * Function verifying if an inhabitant is contained in the list
+     * @param name -> the name of the inhabitant
+     * @return a boolean representing if the inhabitant is in the list
+     */
     private boolean containsName(T name) {
         for(Inhabitant<T> friend : friends){
             if(friend.name.compareTo(name) == 0) {
@@ -102,6 +143,11 @@ public class FriendshipList<T extends Comparable<T>> {
         return false;
     }
 
+    /**
+     * Procedure to make two people friends
+     * @param individual -> the first person
+     * @param representativeTemp -> the second person. If he has no representative, it will be the representative of the first person
+     */
     public void union(T individual, T representativeTemp) {
         if(TEST_EXISTS){
             if(!this.containsName(individual) || !this.containsName(representativeTemp)){
@@ -121,6 +167,10 @@ public class FriendshipList<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Function to isolate an inhabitant from his friends
+     * @param name -> the name of the inhabitant to isolate
+     */
     public void isolate(T name) {
         if(name == null){
             throw new IllegalArgumentException("incorrect name");
@@ -146,6 +196,10 @@ public class FriendshipList<T extends Comparable<T>> {
         Objects.requireNonNull(isolatePerson).setRepresentative(isolatePerson.name);
     }
 
+    /**
+     * Add an inhabitant to the friends list
+     * @param newPerson the name of the inhabitant to add
+     */
     public void addInhabitant(T newPerson) {
         if(newPerson == null){
             throw new IllegalArgumentException("incorrect name");
@@ -158,6 +212,10 @@ public class FriendshipList<T extends Comparable<T>> {
         friends.add(new Inhabitant<>(newPerson));
     }
 
+    /**
+     * Function to add multiple inhabitants at once
+     * @param listPerson the list of inhabitants to add
+     */
     public void addInhabitants(List<T> listPerson) {
         if(listPerson == null){
             throw new IllegalArgumentException("list of persons empty");
@@ -167,6 +225,12 @@ public class FriendshipList<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Function to export the data contained in "friends"
+     * This returns a list containing two lists :
+     * the first one is the list containing only the names of the inhabitants and the second one their representatives
+     * @return List<List<T>> a list containing the two lists
+     */
     public List<List<T>> toList(){
         List<List<T>> returnList = new ArrayList<>(2);
         List<T> names = new LinkedList<>();
@@ -180,6 +244,10 @@ public class FriendshipList<T extends Comparable<T>> {
         return returnList;
     }
 
+    /**
+     * Function to export the data contained in friends in a lisible format
+     * @return the String representing "friends"
+     */
     @Override
     public String toString() {
         boolean first = true;

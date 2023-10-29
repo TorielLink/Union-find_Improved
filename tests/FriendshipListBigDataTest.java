@@ -7,7 +7,7 @@ class FriendshipListBigDataTest {
     @Test
     void test() {
         Random r = new Random();
-        final int proportion = r.nextInt(90)+1;
+        final int proportion = r.nextInt(10)+5;
         HashMap<String, PrenomStat> map = importData();
         final long startTime = System.currentTimeMillis();
         FriendshipList<PrenomStat> f = new FriendshipList<>(new LinkedList<>(map.values()));
