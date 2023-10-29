@@ -80,7 +80,7 @@ public class FriendshipList<T extends Comparable<T>> {
             System.out.println(friends.get(i).name);
             representative = friends.get(i);
             i = friends.indexOf(representative);
-        }//TODO inutile ? cf coverage
+        }//TODO inutile ? cf. coverage
 
         Inhabitant<T> representative2 = getInhabitant(name);
         int j = friends.indexOf(representative2);
