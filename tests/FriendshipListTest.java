@@ -30,7 +30,6 @@ public class FriendshipListTest {
         f.union(404, -1);
         assertArrayEquals(Arrays.asList(205,-1,42,-1).toArray(), f.toList().get(INDEX_REPRESENTATIVES).toArray());
         assertEquals((Integer) (-1), f.find(404));
-
     }
 
     /**
