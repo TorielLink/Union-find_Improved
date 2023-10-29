@@ -4,54 +4,59 @@
 top to bottom direction
 skinparam linetype ortho
 
-class Amis {
-  + Amis(int): 
-  + isolate(int): void
-  + add(int): void
-  + toString(): String
-  + union(int, int): void
-  + find(int): int
+package src {
+    class Amis {
+      + Amis(int):
+      + isolate(int): void
+      + add(int): void
+      + toString(): String
+      + union(int, int): void
+      + find(int): int
+    }
+    class FriendshipList<T> {
+      + FriendshipList():
+      + FriendshipList(List<T>):
+      - getInhabitant(T): Inhabitant<T>?
+      + find(T): T
+      + union(T, T): void
+      + addInhabitants(List<T>): void
+      + toList(): List<List<T>>
+      + toString(): String
+      - containsName(T): boolean
+      + addInhabitant(T): void
+      + isolate(T): void
+    }
+    class Inhabitant<T> {
+      + Inhabitant(T):
+      - representative: T
+       representative: T
+    }
 }
-class FriendshipList<T> {
-  + FriendshipList(): 
-  + FriendshipList(List<T>): 
-  - getInhabitant(T): Inhabitant<T>?
-  + find(T): T
-  + union(T, T): void
-  + addInhabitants(List<T>): void
-  + toList(): List<List<T>>
-  + toString(): String
-  - containsName(T): boolean
-  + addInhabitant(T): void
-  + isolate(T): void
+package tests {
+    class FriendshipListBigDataTest {
+      + FriendshipListBigDataTest():
+      ~ test(): void
+      - makeFriends(FriendshipList<PrenomStat>, int): int
+      - addFriends(FriendshipList<PrenomStat>): int
+      - isolateFriends(FriendshipList<PrenomStat>, int): int
+      - importData(): HashMap<String, PrenomStat>
+    }
+    class FriendshipListTest {
+      + FriendshipListTest():
+      ~ testString(): void
+      ~ testInteger(): void
+    }
+    package tests.subClasses {
+        class PrenomStat {
+          + PrenomStat(String, int, int):
+          + compareTo(PrenomStat): int
+        }
+    }
 }
-class FriendshipListBigDataTest {
-  + FriendshipListBigDataTest(): 
-  ~ test(): void
-  - makeFriends(FriendshipList<PrenomStat>, int): int
-  - addFriends(FriendshipList<PrenomStat>): int
-  - isolateFriends(FriendshipList<PrenomStat>, int): int
-  - importData(): HashMap<String, PrenomStat>
-}
-class FriendshipListTest {
-  + FriendshipListTest(): 
-  ~ testString(): void
-  ~ testInteger(): void
-}
-class Inhabitant<T> {
-  + Inhabitant(T): 
-  - representative: T
-   representative: T
-}
-class PrenomStat {
-  + PrenomStat(String, int, int): 
-  + compareTo(PrenomStat): int
-}
-
 FriendshipList             -[#595959,dashed]->  Inhabitant                : "«create»"
-FriendshipList            "1" *-[#595959,plain]-> "friends\n*" Inhabitant                
+FriendshipList            "1" *-[#595959,plain]-> "friends\n*" Inhabitant
 FriendshipListBigDataTest  -[#595959,dashed]->  FriendshipList            : "«create»"
 FriendshipListBigDataTest  -[#595959,dashed]->  PrenomStat                : "«create»"
 FriendshipListTest         -[#595959,dashed]->  FriendshipList            : "«create»"
-Inhabitant                 +-[#820000,plain]-  FriendshipList            
+Inhabitant                 +-[#820000,plain]-  FriendshipList
 @enduml
