@@ -11,8 +11,9 @@ import java.util.*;
 public class FriendshipList<T extends Comparable<T>> {
     private final LinkedList<Inhabitant<T>> friends;
     //TODO éventuellement mettre en HashMap ?
+    public static final boolean TEST_EXISTS = true;
 
-    protected static class Inhabitant<T extends Comparable<T>> {
+    private static class Inhabitant<T extends Comparable<T>> {
         private final T name;
         private T representative;
 
@@ -48,7 +49,12 @@ public class FriendshipList<T extends Comparable<T>> {
 
     private Inhabitant<T> getInhabitant(T name) {
         if(name == null){
-            throw new IllegalArgumentException("incorrect name");
+        throw new IllegalArgumentException("incorrect name");
+        }
+        if(TEST_EXISTS){
+            if(!this.containsName(name)){
+                throw new IllegalArgumentException("this person does not belong in the list");
+            }
         }
         for (Inhabitant<T> friend : friends) {
             if(friend.name.compareTo(name) == 0){
@@ -62,8 +68,10 @@ public class FriendshipList<T extends Comparable<T>> {
         if(name == null){
             throw new IllegalArgumentException("incorrect name");
         }
-        if(!this.containsName(name)){
-            throw new RuntimeException("this person does not belong in the list");
+        if(TEST_EXISTS){
+            if(!this.containsName(name)){
+                throw new IllegalArgumentException("this person does not belong in the list");
+            }
         }
         Inhabitant<T> representative = getInhabitant(name);
         int i = friends.indexOf(representative);
@@ -74,7 +82,7 @@ public class FriendshipList<T extends Comparable<T>> {
             i = friends.indexOf(representative);
         }//TODO inutile ? cf coverage
 
-        Inhabitant<T> representative2 = new Inhabitant<>(name);
+        Inhabitant<T> representative2 = getInhabitant(name);
         int j = friends.indexOf(representative2);
         while (!(representative2.name.compareTo(friends.get(j).name) == 0)) {
             Inhabitant<T> tmp = representative2;
@@ -86,13 +94,20 @@ public class FriendshipList<T extends Comparable<T>> {
     }
 
     private boolean containsName(T name) {
-        if (this.friends.contains(getInhabitant(name))){
-            return true;
+        for(Inhabitant<T> friend : friends){
+            if(friend.name.equals(name)){
+                return true;
+            }
         }
         return false;
     }
 
     public void union(T individual, T representativeTemp) {
+        if(TEST_EXISTS){
+            if(!this.containsName(individual) || !this.containsName(representativeTemp)){
+                throw new IllegalArgumentException("this person does not belong in the list");
+            }
+        }
         if(individual == null || representativeTemp == null){
             throw new IllegalArgumentException("incorrect name");
         }
@@ -109,6 +124,11 @@ public class FriendshipList<T extends Comparable<T>> {
     public void isolate(T name) {
         if(name == null){
             throw new IllegalArgumentException("incorrect name");
+        }
+        if(TEST_EXISTS){
+            if(!this.containsName(name)){
+                throw new IllegalArgumentException("this person does not belong in the list");
+            }
         }
         Inhabitant<T> isolatePerson = getInhabitant(name);
         T newRepresentative = null;
@@ -127,11 +147,13 @@ public class FriendshipList<T extends Comparable<T>> {
     }
 
     public void addInhabitant(T newPerson) {
-        if(this.containsName(newPerson)){
-            throw new IllegalArgumentException("person already in list");
-        }
         if(newPerson == null){
             throw new IllegalArgumentException("incorrect name");
+        }
+        if(TEST_EXISTS){
+            if(this.containsName(newPerson)){
+                throw new IllegalArgumentException("this person is already in the list");
+            }
         }
         friends.add(new Inhabitant<>(newPerson));
     }
@@ -141,12 +163,11 @@ public class FriendshipList<T extends Comparable<T>> {
             throw new IllegalArgumentException("list of persons empty");
         }
         for (T person : listPerson) {
-            friends.add(new Inhabitant<>(person));
+            this.addInhabitant(person);
         }
     }
 
     public List<List<T>> toList(){
-        //TODO verifier dans la doc que l'ordre est conservé
         List<List<T>> returnList = new ArrayList<>(2);
         List<T> names = new LinkedList<>();
         List<T> representatives = new LinkedList<>();

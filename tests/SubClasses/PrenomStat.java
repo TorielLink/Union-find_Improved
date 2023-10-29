@@ -1,4 +1,4 @@
-import java.util.Objects;
+package SubClasses;
 
 public class PrenomStat implements Comparable<PrenomStat> {
     private final String name;

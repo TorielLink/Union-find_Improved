@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,13 +17,13 @@ public class FriendshipListTest {
         List<Integer> numbers = Arrays.asList(205,404,42,-1);
 
         f.addInhabitants(numbers);
-        assertArrayEquals(numbers.toArray(), f.toList().get(0).toArray());
-        assertArrayEquals(numbers.toArray(), f.toList().get(1).toArray());
+        assertArrayEquals(numbers.toArray(), f.toList().get(INDEX_NAMES).toArray());
+        assertArrayEquals(numbers.toArray(), f.toList().get(INDEX_REPRESENTATIVES).toArray());
 
         assertEquals((Integer) 205, f.find(205));
 
         f.union(404, -1);
-        assertArrayEquals(Arrays.asList(205,-1,42,-1).toArray(), f.toList().get(1).toArray());
+        assertArrayEquals(Arrays.asList(205,-1,42,-1).toArray(), f.toList().get(INDEX_REPRESENTATIVES).toArray());
         assertEquals((Integer) (-1), f.find(404));
 
     }
