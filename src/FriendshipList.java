@@ -11,7 +11,7 @@ import java.util.*;
 public class FriendshipList<T extends Comparable<T>> {
     private final LinkedList<Inhabitant<T>> friends;
     //TODO éventuellement mettre en HashMap ?
-    public static final boolean TEST_EXISTS = true;
+    public static final boolean TEST_EXISTS = false; //TODO change to false only if the data contains NO duplicates
 
     private static class Inhabitant<T extends Comparable<T>> {
         private final T name;
@@ -84,7 +84,7 @@ public class FriendshipList<T extends Comparable<T>> {
 
         Inhabitant<T> representative2 = getInhabitant(name);
         int j = friends.indexOf(representative2);
-        while (!(representative2.name.compareTo(friends.get(j).name) == 0)) {
+        while (!(Objects.requireNonNull(representative2).name.compareTo(friends.get(j).name) == 0)) {
             Inhabitant<T> tmp = representative2;
             representative2 = friends.get(j);
             friends.set(friends.indexOf(tmp), representative2);
@@ -95,7 +95,7 @@ public class FriendshipList<T extends Comparable<T>> {
 
     private boolean containsName(T name) {
         for(Inhabitant<T> friend : friends){
-            if(friend.name.equals(name)){
+            if(friend.name.compareTo(name) == 0) {
                 return true;
             }
         }
@@ -111,12 +111,12 @@ public class FriendshipList<T extends Comparable<T>> {
         if(individual == null || representativeTemp == null){
             throw new IllegalArgumentException("incorrect name");
         }
-        T representant1 = find(individual);
-        T representant2 = find(representativeTemp);
-        Objects.requireNonNull(getInhabitant(representant1)).setRepresentative(representant2);
+        T repIndividual = find(individual);
+        T repRepTemp = find(representativeTemp);
+        Objects.requireNonNull(getInhabitant(repIndividual)).setRepresentative(repRepTemp);
         for (Inhabitant<T> friend : friends) {
-            if (friend.representative.compareTo(representant1) == 0){
-                friend.setRepresentative(representant2);
+            if (friend.representative.compareTo(repIndividual) == 0){
+                friend.setRepresentative(repRepTemp);
             }
         }
     }

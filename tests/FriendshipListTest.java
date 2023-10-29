@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -47,9 +46,7 @@ public class FriendshipListTest {
         assertEquals("Lisa", f.find("Lisa"));
         assertEquals("Nathalie", f.find("Denis"));
 
-        assertThrows(RuntimeException.class, () -> {
-            f.find("Jamy");
-        });
+        assertThrows(RuntimeException.class, () -> f.find("Jamy"));
 
         f.isolate("Nathalie");
         assertArrayEquals(Arrays.asList("Emmanuel", "Emmanuel", "Lisa", "Nathalie", "Emmanuel", "Florence").toArray(),

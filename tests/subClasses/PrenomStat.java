@@ -1,4 +1,4 @@
-package SubClasses;
+package subClasses;
 
 public class PrenomStat implements Comparable<PrenomStat> {
     private final String name;
@@ -14,5 +14,17 @@ public class PrenomStat implements Comparable<PrenomStat> {
     @Override
     public int compareTo(PrenomStat prenomStat) {
         return this.name.compareTo(prenomStat.name);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public int getTimesGiven() {
+        return timesGiven;
     }
 }

@@ -1,5 +1,5 @@
 /**
- * PROF VERSION WHITH AMELIORATIONS
+ * PROF VERSION WITH IMPROVEMENTS
  */
 
 import java.util.Arrays;
@@ -14,23 +14,23 @@ public class Amis {
     }
 
     public int find(int h) {
-        int representant = h;
-        while (representant != amis[representant]) {
-            representant = amis[representant];
+        int representative = h;
+        while (representative != amis[representative]) {
+            representative = amis[representative];
         }
         int a = h;
         while (a != amis[a]) {
             int temp = a;
             a = amis[a];
-            amis[temp] = representant;
+            amis[temp] = representative;
         }
-        return representant;
+        return representative;
     }
 
     public void union(int h1, int h2) {
-        int representant1 = find(h1);
-        int representant2 = find(h2);
-        amis[representant1] = representant2;
+        int rep1 = find(h1);
+        int rep2 = find(h2);
+        amis[rep1] = rep2;
     }
 
     public void isolate(int h){
